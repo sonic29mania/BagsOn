@@ -1,0 +1,283 @@
+﻿<Window x:Class="BagsOn.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:BagsOn.ViewModels"
+        Title="BagsOn"
+        Height="850"
+        Width="1350"
+        WindowStartupLocation="CenterScreen"
+        Background="#F3F6FC">
+
+    <Window.DataContext>
+        <vm:NavigationVM/>
+    </Window.DataContext>
+
+    <Window.Resources>
+
+        <!-- MENU BUTTON -->
+
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="Padding" Value="18 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#E5E7FF"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="14"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#22FFFFFF"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!-- BURGER BUTTON -->
+
+        <Style x:Key="BurgerButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="48"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Background" Value="#22FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="14">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MenuColumn" Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!-- LEFT MENU -->
+
+        <Border x:Name="LeftMenuBorder"
+                Grid.Column="0"
+                Margin="18"
+                CornerRadius="30"
+                Padding="22">
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Color="#5B8DEF"
+                                  Offset="0"/>
+                    <GradientStop Color="#C88FA3"
+                                  Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+
+                <!-- LOGO + BURGER -->
+
+
+
+                <Grid Grid.Row="0"
+      Margin="0 0 0 34">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="BurgerButton"
+            Grid.Column="0"
+            Content="☰"
+            Style="{StaticResource BurgerButtonStyle}"
+            Click="BurgerButton_Click"/>
+
+                    <StackPanel x:Name="LogoPanel"
+                Grid.Column="1"
+                Margin="14 0 0 0"
+                VerticalAlignment="Center">
+
+                        <TextBlock Text="BagsOn"
+                   FontSize="30"
+                   FontWeight="Bold"
+                   Foreground="White"/>
+
+                        <TextBlock Text="Boutique inventory"
+                   FontSize="13"
+                   Foreground="#E5E7FF"
+                   Margin="0 4 0 0"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- MENU ITEMS -->
+
+                <StackPanel Grid.Row="1">
+
+                    <Button x:Name="ProductsMenuButton"
+                            Content="👜  Асортимент"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ProductsCommand}"/>
+
+                    <Button x:Name="OrdersMenuButton"
+                            Content="🧾  Замовлення"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding OrdersCommand}"/>
+
+                    <Button x:Name="StockMenuButton"
+                            Content="📦  Склад"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding StockCommand}"/>
+
+                    <Button x:Name="AnalyticsMenuButton"
+                            Content="📊  Аналітика"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding AnalyticsCommand}"/>
+
+                </StackPanel>
+
+
+                <!-- USER BLOCK -->
+
+                <Border x:Name="UserBlock"
+                        Grid.Row="2"
+                        Background="#22FFFFFF"
+                        CornerRadius="20"
+                        Padding="14">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Менеджер"
+                                   Foreground="White"
+                                   FontWeight="Bold"
+                                   FontSize="15"/>
+
+                        <TextBlock Text="Панель керування"
+                                   Foreground="#E5E7FF"
+                                   FontSize="12"
+                                   Margin="0 4 0 0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+        </Border>
+
+
+        <!-- MAIN CONTENT -->
+
+        <Grid Grid.Column="1"
+              Margin="0 18 18 18">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <!-- TOP BAR -->
+
+            <Border Grid.Row="0"
+                    Background="White"
+                    CornerRadius="26"
+                    Padding="24"
+                    Margin="29,0,25,18">
+
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="24"
+                                      ShadowDepth="0"
+                                      Opacity="0.08"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+
+                        <TextBlock Text="{Binding CurrentPageTitle}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#111827"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
+
+            <!-- CURRENT PAGE -->
+
+            <ContentControl Grid.Row="1"
+                            Content="{Binding CurrentView}"/>
+
+        </Grid>
+
+    </Grid>
+</Window>

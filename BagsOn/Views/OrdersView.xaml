@@ -1,0 +1,840 @@
+﻿<UserControl x:Class="BagsOn.Views.OrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:BagsOn.ViewModels"
+             Background="#F3F6FC">
+
+    <UserControl.DataContext>
+        <vm:OrdersVM/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#5B8DEF"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#E35D6A"/>
+        <SolidColorBrush x:Key="CardBrush" Color="White"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#111827"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#6B7280"/>
+
+        <!-- CARD -->
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+            <Setter Property="CornerRadius" Value="26"/>
+            <Setter Property="Padding" Value="22"/>
+            <Setter Property="Margin" Value="0 0 0 18"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="24"
+                                      ShadowDepth="0"
+                                      Opacity="0.08"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- MAIN BUTTON -->
+
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="18 0"/>
+            <Setter Property="Margin" Value="0 0 10 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="14">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- URGENCY BADGE BACKGROUND -->
+
+        <Style x:Key="UrgencyBadgeBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="9"/>
+            <Setter Property="Padding" Value="8 3"/>
+            <Setter Property="MinWidth" Value="125"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Background" Value="#FEF3C7"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding UrgencyLevel}" Value="1">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Background" Value="#FEF3C7"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding UrgencyLevel}" Value="2">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Background" Value="#FFEDD5"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <!-- URGENCY BADGE TEXT -->
+
+        <Style x:Key="UrgencyBadgeTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#92400E"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding UrgencyLevel}" Value="2">
+                    <Setter Property="Foreground" Value="#C2410C"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <!-- ACTIVE ORDER ROW HIGHLIGHT -->
+
+        <Style x:Key="ActiveOrderRowStyle" TargetType="DataGridRow">
+            <Setter Property="MinHeight" Value="70"/>
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ToolTip" Value="{Binding UrgencyText}"/>
+
+            <Style.Triggers>
+                <!-- Легке попередження -->
+                <DataTrigger Binding="{Binding UrgencyLevel}" Value="1">
+                    <Setter Property="Background" Value="#FFFBEB"/>
+                </DataTrigger>
+
+                <!-- Важливіше попередження -->
+                <DataTrigger Binding="{Binding UrgencyLevel}" Value="2">
+                    <Setter Property="Background" Value="#FFF1E6"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#EEF2FF"/>
+            <Setter Property="Foreground" Value="#4F46E5"/>
+        </Style>
+
+        <!-- ICON BUTTONS -->
+
+        <Style x:Key="DangerIconButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Background" Value="#FDECEF"/>
+            <Setter Property="Foreground" Value="#E35D6A"/>
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0 0 7 0"/>
+        </Style>
+
+        <Style x:Key="IconButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource DangerIconButtonStyle}">
+            <Setter Property="Background" Value="#EEF2FF"/>
+            <Setter Property="Foreground" Value="#4F46E5"/>
+        </Style>
+
+        <Style x:Key="RestoreIconButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource DangerIconButtonStyle}">
+            <Setter Property="Background" Value="#DCFCE7"/>
+            <Setter Property="Foreground" Value="#15803D"/>
+            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+
+        <!-- INPUTS -->
+
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Padding" Value="14 0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12 0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- STATUS BADGE BACKGROUND -->
+
+        <Style x:Key="StatusBadgeBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="9"/>
+            <Setter Property="Padding" Value="8 3"/>
+            <Setter Property="MinWidth" Value="85"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#F3F4F6"/>
+
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Нове">
+                    <Setter Property="Background" Value="#DBEAFE"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="В обробці">
+                    <Setter Property="Background" Value="#FEF3C7"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Очікує оплати">
+                    <Setter Property="Background" Value="#FFEDD5"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Оплачено">
+                    <Setter Property="Background" Value="#DCFCE7"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Відправлено">
+                    <Setter Property="Background" Value="#EDE9FE"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Виконано">
+                    <Setter Property="Background" Value="#E5E7EB"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Скасовано">
+                    <Setter Property="Background" Value="#FEE2E2"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <!-- STATUS BADGE TEXT -->
+
+        <Style x:Key="StatusBadgeTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#374151"/>
+
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Нове">
+                    <Setter Property="Foreground" Value="#1D4ED8"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="В обробці">
+                    <Setter Property="Foreground" Value="#92400E"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Очікує оплати">
+                    <Setter Property="Foreground" Value="#C2410C"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Оплачено">
+                    <Setter Property="Foreground" Value="#15803D"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Відправлено">
+                    <Setter Property="Foreground" Value="#6D28D9"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Виконано">
+                    <Setter Property="Foreground" Value="#374151"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding StatusName}" Value="Скасовано">
+                    <Setter Property="Foreground" Value="#B91C1C"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <!-- ARCHIVE TYPE BADGE BACKGROUND -->
+
+        <Style x:Key="ArchiveTypeBadgeBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="9"/>
+            <Setter Property="Padding" Value="8 3"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#F3F4F6"/>
+
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding ArchiveType}" Value="Виконане">
+                    <Setter Property="Background" Value="#DCFCE7"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding ArchiveType}" Value="Скасоване">
+                    <Setter Property="Background" Value="#FEE2E2"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding ArchiveType}" Value="Ручно архівоване">
+                    <Setter Property="Background" Value="#EDE9FE"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <!-- ARCHIVE TYPE BADGE TEXT -->
+
+        <Style x:Key="ArchiveTypeBadgeTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#374151"/>
+
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding ArchiveType}" Value="Виконане">
+                    <Setter Property="Foreground" Value="#15803D"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding ArchiveType}" Value="Скасоване">
+                    <Setter Property="Foreground" Value="#B91C1C"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding ArchiveType}" Value="Ручно архівоване">
+                    <Setter Property="Foreground" Value="#6D28D9"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <!-- DATAGRID -->
+
+        <Style TargetType="DataGrid">
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Padding" Value="14 0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="MinHeight" Value="70"/>
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Margin="24">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+
+        <Border Grid.Row="0"
+                Style="{StaticResource CardStyle}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Замовлення"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="#111827"/>
+
+                    <TextBlock Text="Керування активними, виконаними та архівними замовленнями"
+                               FontSize="13"
+                               Foreground="#6B7280"
+                               Margin="0 6 0 0"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="+ Додати замовлення"
+                        Width="190"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Click="AddOrderButton_Click"/>
+            </Grid>
+
+        </Border>
+
+        <!-- ORDERS TABS -->
+
+        <Border Grid.Row="1"
+                Style="{StaticResource CardStyle}"
+                VerticalAlignment="Stretch">
+
+            <Grid>
+
+                <TabControl Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch">
+
+                    <!-- ACTIVE ORDERS TAB -->
+
+                    <TabItem Header="{Binding ActiveTabTitle}">
+
+                        <Grid Margin="0 16 0 0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- ACTIVE FILTERS -->
+
+                            <Border Grid.Row="0"
+                                    Background="#F9FAFB"
+                                    CornerRadius="18"
+                                    Padding="16"
+                                    Margin="0 0 0 14">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="150"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Пошук"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <TextBox Text="{Binding ActiveSearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Статус"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <ComboBox ItemsSource="{Binding Statuses}"
+                                                  SelectedItem="{Binding ActiveSelectedStatus}"
+                                                  DisplayMemberPath="Name"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Доставка"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <ComboBox ItemsSource="{Binding DeliveryTypes}"
+                                                  SelectedItem="{Binding ActiveSelectedDeliveryType}"
+                                                  DisplayMemberPath="Name"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="3"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Дата від"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <DatePicker SelectedDate="{Binding ActiveDateFrom}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="4"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Дата до"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <DatePicker SelectedDate="{Binding ActiveDateTo}"/>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="5"
+                                            Content="Очистити"
+                                            Style="{StaticResource SecondaryButtonStyle}"
+                                            Margin="0"
+                                            VerticalAlignment="Bottom"
+                                            Click="ClearActiveFiltersButton_Click"/>
+                                </Grid>
+
+                            </Border>
+
+                            <!-- ACTIVE ORDERS TABLE -->
+                            <DataGrid Grid.Row="1"
+          x:Name="OrdersDataGrid"
+          ItemsSource="{Binding OrdersView}"
+          AutoGenerateColumns="False"
+          CanUserAddRows="False"
+          IsReadOnly="True"
+          RowHeaderWidth="0"
+          RowStyle="{StaticResource ActiveOrderRowStyle}"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          MinHeight="360"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+
+                                    <DataGridTextColumn Header="№"
+                                                        Binding="{Binding OrderId}"
+                                                        Width="70"/>
+
+                                    <DataGridTextColumn Header="Дата"
+                                                        Binding="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}"
+                                                        Width="110"/>
+
+                                    <DataGridTextColumn Header="Клієнт"
+                                                        Binding="{Binding CustomerName}"
+                                                        Width="160"/>
+
+                                    <DataGridTextColumn Header="Телефон"
+                                                        Binding="{Binding Phone}"
+                                                        Width="135"/>
+
+                                    <DataGridTemplateColumn Header="Статус"
+                                                            Width="145">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource StatusBadgeBorderStyle}">
+                                                    <TextBlock Text="{Binding StatusName}"
+                                                               Style="{StaticResource StatusBadgeTextStyle}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Увага"
+                        Width="155">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource UrgencyBadgeBorderStyle}">
+                                                    <TextBlock Text="{Binding UrgencyText}"
+                           Style="{StaticResource UrgencyBadgeTextStyle}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Доставка"
+                                                        Binding="{Binding DeliveryTypeName}"
+                                                        Width="150"/>
+
+                                    <DataGridTextColumn Header="Товарів"
+                                                        Binding="{Binding ItemsCount}"
+                                                        Width="80"/>
+
+                                    <DataGridTextColumn Header="Сума"
+                                                        Binding="{Binding TotalAmount, StringFormat={}{0:N2} грн}"
+                                                        Width="130"/>
+
+                                    <DataGridTemplateColumn Header="Дії"
+                                                            Width="160">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+
+                                                <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Center">
+
+                                                    <Button Content="&#xE890;"
+                                                            ToolTip="Переглянути"
+                                                            Tag="{Binding}"
+                                                            Style="{StaticResource IconButtonStyle}"
+                                                            Click="ViewOrderButton_Click"/>
+
+                                                    <Button Content="&#xE70F;"
+                                                            ToolTip="Редагувати"
+                                                            Tag="{Binding}"
+                                                            Style="{StaticResource IconButtonStyle}"
+                                                            Click="EditOrderButton_Click"/>
+
+                                                    <Button Content="&#xE74D;"
+                                                            ToolTip="Перенести в архів"
+                                                            Tag="{Binding}"
+                                                            Style="{StaticResource DangerIconButtonStyle}"
+                                                            Click="CancelOrderButton_Click"/>
+
+                                                </StackPanel>
+
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+
+                        </Grid>
+
+                    </TabItem>
+
+                    <!-- ARCHIVE TAB -->
+
+                    <TabItem Header="{Binding ArchiveTabTitle}">
+
+                        <Grid Margin="0 16 0 0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- ARCHIVE FILTERS -->
+
+                            <Border Grid.Row="0"
+                                    Background="#F9FAFB"
+                                    CornerRadius="18"
+                                    Padding="16"
+                                    Margin="0 0 0 14">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="150"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Пошук"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <TextBox Text="{Binding ArchiveSearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Статус"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <ComboBox ItemsSource="{Binding Statuses}"
+                                                  SelectedItem="{Binding ArchiveSelectedStatus}"
+                                                  DisplayMemberPath="Name"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Причина архівації"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <TextBox Text="{Binding ArchiveReasonText, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="3"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Архів від"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <DatePicker SelectedDate="{Binding ArchiveDateFrom}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="4"
+                                                Margin="0 0 14 0">
+                                        <TextBlock Text="Архів до"
+                                                   Foreground="#6B7280"
+                                                   FontSize="12"
+                                                   Margin="0 0 0 6"/>
+
+                                        <DatePicker SelectedDate="{Binding ArchiveDateTo}"/>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="5"
+                                            Content="Очистити"
+                                            Style="{StaticResource SecondaryButtonStyle}"
+                                            Margin="0"
+                                            VerticalAlignment="Bottom"
+                                            Click="ClearArchiveFiltersButton_Click"/>
+                                </Grid>
+
+                            </Border>
+
+                            <!-- ARCHIVE TABLE -->
+
+                            <DataGrid Grid.Row="1"
+                                      x:Name="ArchiveOrdersDataGrid"
+                                      ItemsSource="{Binding ArchivedOrdersView}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      IsReadOnly="True"
+                                      RowHeaderWidth="0"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      MinHeight="360"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+
+                                <DataGrid.Columns>
+
+                                    <DataGridTextColumn Header="№"
+                                                        Binding="{Binding OrderId}"
+                                                        Width="70"/>
+
+                                    <DataGridTextColumn Header="Дата замовлення"
+                                                        Binding="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}"
+                                                        Width="130"/>
+
+                                    <DataGridTextColumn Header="Дата архівації"
+                                                        Binding="{Binding ArchivedAt, StringFormat={}{0:dd.MM.yyyy HH:mm}}"
+                                                        Width="150"/>
+
+                                    <DataGridTextColumn Header="Клієнт"
+                                                        Binding="{Binding CustomerName}"
+                                                        Width="150"/>
+
+                                    <DataGridTextColumn Header="Телефон"
+                                                        Binding="{Binding Phone}"
+                                                        Width="130"/>
+
+                                    <DataGridTemplateColumn Header="Статус"
+                                                            Width="140">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource StatusBadgeBorderStyle}">
+                                                    <TextBlock Text="{Binding StatusName}"
+                                                               Style="{StaticResource StatusBadgeTextStyle}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Тип архіву"
+                                                            Width="155">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource ArchiveTypeBadgeBorderStyle}">
+                                                    <TextBlock Text="{Binding ArchiveType}"
+                                                               Style="{StaticResource ArchiveTypeBadgeTextStyle}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="Сума"
+                                                        Binding="{Binding TotalAmount, StringFormat={}{0:N2} грн}"
+                                                        Width="120"/>
+
+                                    <DataGridTextColumn Header="Причина"
+                                                        Binding="{Binding ArchiveReason}"
+                                                        Width="*"/>
+
+                                    <DataGridTemplateColumn Header="Дії"
+                                                            Width="130">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+
+                                                <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Center">
+
+                                                    <Button Content="&#xE890;"
+                                                            ToolTip="Переглянути"
+                                                            Tag="{Binding}"
+                                                            Style="{StaticResource IconButtonStyle}"
+                                                            Click="ViewOrderButton_Click"/>
+
+                                                    <Button Content="↩"
+                                                            ToolTip="Повернути з архіву"
+                                                            Tag="{Binding}"
+                                                            Click="RestoreOrderButton_Click">
+
+                                                        <Button.Style>
+                                                            <Style TargetType="Button"
+                                                                   BasedOn="{StaticResource RestoreIconButtonStyle}">
+
+                                                                <Setter Property="Visibility" Value="Visible"/>
+
+                                                                <Style.Triggers>
+
+                                                                    <DataTrigger Binding="{Binding StatusName}" Value="Виконано">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+
+                                                                    <DataTrigger Binding="{Binding StatusName}" Value="Скасовано">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+
+                                                                    <DataTrigger Binding="{Binding IsArchived}" Value="False">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+
+                                                                </Style.Triggers>
+
+                                                            </Style>
+                                                        </Button.Style>
+
+                                                    </Button>
+
+                                                </StackPanel>
+
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+
+                        </Grid>
+
+                    </TabItem>
+
+                </TabControl>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+</UserControl>

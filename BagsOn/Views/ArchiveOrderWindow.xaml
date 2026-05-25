@@ -1,0 +1,153 @@
+﻿<Window x:Class="BagsOn.Views.ArchiveOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Перенесення в архів"
+        Height="500"
+        Width="540"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F3F6FC">
+
+    <Window.Resources>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="24"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="22"
+                                      ShadowDepth="0"
+                                      Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LabelTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12 0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Background" Value="#E35D6A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="Width" Value="120"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Margin="24">
+
+        <Border Style="{StaticResource CardStyle}">
+
+            <StackPanel>
+
+                <TextBlock Text="Перенести замовлення в архів"
+                           FontSize="25"
+                           FontWeight="Bold"
+                           Foreground="#111827"
+                           Margin="0 0 0 8"/>
+
+                <TextBlock Text="Оберіть причину. Якщо потрібної причини немає, виберіть “Інше” та напишіть коментар."
+                           FontSize="14"
+                           Foreground="#6B7280"
+                           TextWrapping="Wrap"
+                           Margin="0 0 0 22"/>
+
+                <TextBlock Text="Замовлення"
+                           Style="{StaticResource LabelTextStyle}"/>
+
+                <TextBlock x:Name="OrderInfoTextBlock"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#111827"
+                           Margin="0 0 0 14"/>
+
+                <TextBlock Text="Клієнт"
+                           Style="{StaticResource LabelTextStyle}"/>
+
+                <TextBlock x:Name="CustomerInfoTextBlock"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           Foreground="#111827"
+                           Margin="0 0 0 18"/>
+
+                <TextBlock Text="Причина скасування / архівації"
+                           Style="{StaticResource LabelTextStyle}"/>
+
+                <ComboBox x:Name="ReasonComboBox"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          SelectionChanged="ReasonComboBox_SelectionChanged"
+                          Margin="0 0 0 14"/>
+
+                <TextBlock x:Name="CommentLabelTextBlock"
+                           Text="Коментар"
+                           Style="{StaticResource LabelTextStyle}"
+                           Visibility="Collapsed"/>
+
+                <TextBox x:Name="CommentTextBox"
+                         Height="100"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         Visibility="Collapsed"
+                         Margin="0 0 0 22"/>
+
+                <TextBlock x:Name="HintTextBlock"
+                           Text="Коментар обов’язковий для причини “Інше”, “Помилка менеджера” або “Некоректні дані клієнта”."
+                           FontSize="12"
+                           Foreground="#9CA3AF"
+                           TextWrapping="Wrap"
+                           Margin="0 0 0 20"/>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+
+                    <Button Content="Скасувати"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Margin="0 0 10 0"
+                            Click="CancelButton_Click"/>
+
+                    <Button Content="В архів"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Click="ArchiveButton_Click"/>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+</Window>

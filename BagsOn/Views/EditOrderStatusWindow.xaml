@@ -1,0 +1,322 @@
+﻿<Window x:Class="BagsOn.Views.EditOrderStatusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редагування замовлення"
+        Height="760"
+        Width="650"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F3F6FC">
+
+    <Window.Resources>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="24"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="Margin" Value="0 0 0 16"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="22"
+                                      ShadowDepth="0"
+                                      Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0 0 0 16"/>
+        </Style>
+
+        <Style x:Key="LabelTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12 0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0 0 0 14"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12 0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0 0 0 10"/>
+        </Style>
+
+        <Style x:Key="CommentTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="85"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Margin" Value="0 0 0 14"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Width" Value="135"/>
+            <Setter Property="Background" Value="#5B8DEF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background" Value="#EEF2FF"/>
+            <Setter Property="Foreground" Value="#4F46E5"/>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid Margin="24">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <ScrollViewer Grid.Row="0"
+                      VerticalScrollBarVisibility="Auto">
+
+            <StackPanel>
+
+                <!-- HEADER -->
+
+                <Border Style="{StaticResource CardStyle}">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Редагування замовлення"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#111827"
+                                   Margin="0 0 0 8"/>
+
+                        <TextBlock Text="Змініть статус, дані клієнта та коментарі до замовлення"
+                                   FontSize="14"
+                                   Foreground="#6B7280"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ORDER STATUS -->
+
+                <Border Style="{StaticResource CardStyle}">
+
+                    <StackPanel>
+
+                        <TextBlock Text="1. Статус замовлення"
+                                   Style="{StaticResource SectionTitleStyle}"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0"
+                                        Margin="0 0 10 0">
+
+                                <TextBlock Text="Замовлення"
+                                           Style="{StaticResource LabelTextStyle}"/>
+
+                                <TextBlock x:Name="OrderInfoTextBlock"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#111827"
+                                           Margin="0 0 0 14"/>
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"
+                                        Margin="10 0 0 0">
+
+                                <TextBlock Text="Поточний статус"
+                                           Style="{StaticResource LabelTextStyle}"/>
+
+                                <TextBlock x:Name="CurrentStatusTextBlock"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#111827"
+                                           Margin="0 0 0 14"/>
+
+                            </StackPanel>
+                        </Grid>
+
+
+                        <TextBlock Text="Новий статус"
+                                   Style="{StaticResource LabelTextStyle}"/>
+
+                        <ComboBox x:Name="StatusComboBox"
+                                  DisplayMemberPath="Name"
+                                  SelectedValuePath="Id"/>
+
+                        <TextBlock x:Name="StatusHintTextBlock"
+                                   Text="У списку будуть тільки дозволені переходи статусу."
+                                   FontSize="12"
+                                   Foreground="#9CA3AF"
+                                   TextWrapping="Wrap"
+                                   Margin="0 2 0 0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- CUSTOMER INFO -->
+
+                <Border Style="{StaticResource CardStyle}">
+
+                    <StackPanel>
+
+                        <TextBlock Text="2. Інформація про клієнта"
+                                   Style="{StaticResource SectionTitleStyle}"/>
+
+                        <TextBlock Text="Ім’я клієнта"
+                                   Style="{StaticResource LabelTextStyle}"/>
+
+                        <TextBox x:Name="CustomerNameTextBox"/>
+
+
+                        <TextBlock Text="Телефон"
+                                   Style="{StaticResource LabelTextStyle}"/>
+
+                        <TextBox x:Name="PhoneTextBox"/>
+
+
+                        <TextBlock Text="Email"
+                                   Style="{StaticResource LabelTextStyle}"/>
+
+                        <TextBox x:Name="EmailTextBox"/>
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0"
+                                        Margin="0 0 10 0">
+
+                                <TextBlock Text="Місто"
+                                           Style="{StaticResource LabelTextStyle}"/>
+
+                                <TextBox x:Name="CityTextBox"/>
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"
+                                        Margin="10 0 0 0">
+
+                                <TextBlock Text="Адреса клієнта"
+                                           Style="{StaticResource LabelTextStyle}"/>
+
+                                <TextBox x:Name="CustomerAddressTextBox"/>
+
+                            </StackPanel>
+                        </Grid>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- COMMENTS -->
+
+                <Border Style="{StaticResource CardStyle}">
+
+                    <StackPanel>
+
+                        <TextBlock Text="3. Коментарі"
+                                   Style="{StaticResource SectionTitleStyle}"/>
+
+                        <TextBlock Text="Коментар від клієнта"
+                                   Style="{StaticResource LabelTextStyle}"/>
+
+                        <TextBox x:Name="CustomerCommentTextBox"
+                                 Style="{StaticResource CommentTextBoxStyle}"/>
+
+                        <TextBlock Text="Цей коментар можна використовувати для накладної або побажань клієнта."
+                                   FontSize="12"
+                                   Foreground="#9CA3AF"
+                                   Margin="0 -8 0 14"/>
+
+
+                        <TextBlock Text="Коментар менеджера"
+                                   Style="{StaticResource LabelTextStyle}"/>
+
+                        <TextBox x:Name="ManagerCommentTextBox"
+                                 Style="{StaticResource CommentTextBoxStyle}"/>
+
+                        <TextBlock Text="Цей коментар бачать тільки працівники магазину."
+                                   FontSize="12"
+                                   Foreground="#9CA3AF"
+                                   Margin="0 -8 0 0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+
+        <!-- BUTTONS -->
+
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="22"
+                Padding="18"
+                Margin="0 16 0 0">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20"
+                                  ShadowDepth="0"
+                                  Opacity="0.08"/>
+            </Border.Effect>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+
+                <Button Content="Скасувати"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Margin="0 0 10 0"
+                        Click="CancelButton_Click"/>
+
+                <Button Content="Зберегти"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Click="SaveButton_Click"/>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+</Window>
