@@ -1,4 +1,6 @@
-﻿namespace BagsOn.Models
+﻿
+/// Клас ReportTypeOption описує варіант типу звіту.
+namespace BagsOn.Models
 {
     public class ReportTypeOption
     {

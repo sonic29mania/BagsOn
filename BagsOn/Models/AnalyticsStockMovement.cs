@@ -1,5 +1,5 @@
 ﻿using System;
-
+/// Клас AnalyticsStockMovement описує запис руху товару на складі для розділу аналітики.
 namespace BagsOn.Models
 {
     public class AnalyticsStockMovement

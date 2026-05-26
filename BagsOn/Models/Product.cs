@@ -1,5 +1,6 @@
 ﻿using System;
 
+/// Клас Product описує товар в асортименті магазину сумок.
 namespace BagsOn.Models
 {
     public class Product

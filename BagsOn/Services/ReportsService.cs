@@ -7,11 +7,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-
+// Клас ReportsService відповідає за експорт і друк універсальних табличних звітів.
 namespace BagsOn.Services
 {
     public static class ReportsService
     {
+
+        // Метод ExportReportToPdf експортує табличний звіт у PDF-файл.
         public static void ExportReportToPdf(
             DataTable table,
             string reportTitle,
@@ -94,7 +96,8 @@ namespace BagsOn.Services
             })
             .GeneratePdf(filePath);
         }
-
+        // Метод PrintReport відкриває діалог друку і друкує табличний звіт.
+        // Якщо користувач не підтвердив друк, метод не виконує жодних дій.
         public static void PrintReport(
             DataTable table,
             string reportTitle,
@@ -129,7 +132,7 @@ namespace BagsOn.Services
                 reportTitle
             );
         }
-
+        // Метод CreatePrintDocument створює друкований документ FlowDocument на основі DataTable.
         private static FlowDocument CreatePrintDocument(
             DataTable table,
             string reportTitle,
@@ -209,7 +212,7 @@ namespace BagsOn.Services
 
             return document;
         }
-
+        // Метод CreatePrintCell створює комірку таблиці для друкованого звіту.
         private static TableCell CreatePrintCell(string text, bool isHeader)
         {
             TableCell cell = new TableCell(new Paragraph(new Run(text)))
@@ -227,7 +230,7 @@ namespace BagsOn.Services
 
             return cell;
         }
-
+        // Метод AddPdfHeaderCell додає комірку заголовка до PDF-таблиці.
         private static void AddPdfHeaderCell(TableCellDescriptor header, string text)
         {
             header.Cell()
@@ -239,7 +242,7 @@ namespace BagsOn.Services
                 .Bold()
                 .FontSize(7);
         }
-
+        // Метод AddPdfCell додає звичайну комірку до PDF-таблиці.
         private static void AddPdfCell(TableDescriptor table, string text)
         {
             table.Cell()
@@ -249,6 +252,8 @@ namespace BagsOn.Services
                 .Text(text)
                 .FontSize(7);
         }
+        
+        // Метод FormatValue перетворює значення з таблиці у текст для звіту.
 
         private static string FormatValue(object value)
         {

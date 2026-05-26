@@ -1,4 +1,5 @@
-﻿namespace BagsOn.Models
+﻿/// Клас AnalyticsTopProduct описує товар, який найкраще продається.
+namespace BagsOn.Models
 {
     public class AnalyticsTopProduct
     {

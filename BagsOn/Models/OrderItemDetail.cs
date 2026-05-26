@@ -1,4 +1,5 @@
-﻿namespace BagsOn.Models
+﻿/// Клас OrderItemDetail описує окрему позицію всередині замовлення.
+namespace BagsOn.Models
 {
     public class OrderItemDetail
     {

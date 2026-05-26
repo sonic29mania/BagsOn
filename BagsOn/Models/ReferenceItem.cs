@@ -1,4 +1,7 @@
-﻿namespace BagsOn.Models
+﻿
+/// Клас ReferenceItem є універсальною моделлю для довідникових значень. Він використовується для списків у
+/// ComboBox, де потрібні тільки ідентифікатор запису та назва для відображення.
+namespace BagsOn.Models
 {
     public class ReferenceItem
     {

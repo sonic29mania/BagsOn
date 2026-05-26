@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace BagsOn.Repositories
 {
+    // Клас ProductRepository відповідає за роботу з товарами магазину сумок у базі даних.
     public class ProductRepository
     {
+        /// Метод GetAllProductsAsync отримує всі активні товари з бази даних.
         public async Task<List<Product>> GetAllProductsAsync()
         {
             List<Product> products = new List<Product>();
@@ -95,13 +97,13 @@ namespace BagsOn.Repositories
             return products;
         }
 
-
+        /// Метод GetBrandSegmentsAsync отримує список сегментів брендів.
         public async Task<List<ReferenceItem>> GetBrandSegmentsAsync()
         {
             return await GetReferenceItemsAsync("brand_segments", "segment_id", "segment_name");
         }
 
-
+        // Метод GetBrandsAsync отримує список брендів з бази даних.
         public async Task<List<ReferenceItem>> GetBrandsAsync(int? segmentId = null)
         {
             List<ReferenceItem> items = new List<ReferenceItem>();
@@ -129,6 +131,8 @@ namespace BagsOn.Repositories
 
             return items;
         }
+
+        /// Метод GetImagesByVariantIdAsync отримує всі зображення конкретного варіанта товару.
         public async Task<List<ProductImage>> GetImagesByVariantIdAsync(int variantId)
         {
             List<ProductImage> images = new List<ProductImage>();
@@ -183,31 +187,31 @@ namespace BagsOn.Repositories
 
             return images;
         }
-
+        // Метод GetTypesAsync отримує список типів товарів.
         public async Task<List<ReferenceItem>> GetTypesAsync()
         {
             return await GetReferenceItemsAsync("product_types", "type_id", "type_name");
         }
-
+        // Метод GetCategoriesAsync отримує список категорій товарів.
 
         public async Task<List<ReferenceItem>> GetCategoriesAsync()
         {
             return await GetReferenceItemsAsync("categories", "category_id", "category_name");
         }
-
+        // Метод GetMaterialsAsync отримує список матеріалів товарів.
 
         public async Task<List<ReferenceItem>> GetMaterialsAsync()
         {
             return await GetReferenceItemsAsync("materials", "material_id", "material_name");
         }
 
-
+        // Метод GetColorsAsync отримує список кольорів товарів.
         public async Task<List<ReferenceItem>> GetColorsAsync()
         {
             return await GetReferenceItemsAsync("colors", "color_id", "color_name");
         }
 
-
+        // Метод GetReferenceItemsAsync є допоміжним методом для отримання даних з довідникових таблиць.
         private async Task<List<ReferenceItem>> GetReferenceItemsAsync(
             string tableName,
             string idColumn,
@@ -239,7 +243,7 @@ namespace BagsOn.Repositories
             return items;
         }
 
-
+        // Метод AddBrandAsync додає новий бренд у базу даних або оновлює його сегмент,якщо бренд з такою назвою вже існує.
         public async Task<int> AddBrandAsync(string brandName, int? segmentId)
         {
             await using var connection = DatabaseManager.GetConnection();
@@ -271,24 +275,24 @@ namespace BagsOn.Repositories
             return Convert.ToInt32(result);
         }
 
-
+        // Метод EnsureNoBrandAsync гарантує наявність службового бренду "Без бренду".
         public async Task<int> EnsureNoBrandAsync()
         {
             return await AddBrandAsync("Без бренду", null);
         }
 
-
+        // Метод AddProductWithVariantAsync додає новий товар разом із першим його варіантом.
         public async Task AddProductWithVariantAsync(
-     string modelName,
-     int brandId,
-     int typeId,
-     int materialId,
-     List<int> categoryIds,
-     int colorId,
-     decimal price,
-     int quantity,
-     DateTime arrivalDate,
-     List<string> imagePaths)
+             string modelName,
+             int brandId,
+             int typeId,
+             int materialId,
+             List<int> categoryIds,
+             int colorId,
+             decimal price,
+             int quantity,
+             DateTime arrivalDate,
+             List<string> imagePaths)
         {
             await using var connection = DatabaseManager.GetConnection();
             await connection.OpenAsync();
@@ -599,7 +603,7 @@ namespace BagsOn.Repositories
                 throw;
             }
         }
-
+        /// Метод  отримує повні дані товару та конкретного варіанта для редагування.
         public async Task<ProductEditData?> GetProductForEditAsync(int productId, int variantId)
         {
             ProductEditData? product = null;
@@ -697,20 +701,22 @@ namespace BagsOn.Repositories
 
             return product;
         }
+
+        // Метод UpdateProductVariantAsync оновлює дані товару та його конкретного варіанта.
         public async Task UpdateProductVariantAsync(
-    int productId,
-    int variantId,
-    string modelName,
-    int brandId,
-    int typeId,
-    int materialId,
-    List<int> categoryIds,
-    int colorId,
-    decimal price,
-    int quantity,
-    DateTime arrivalDate,
-    List<string> imagePaths,
-    bool replaceImages)
+            int productId,
+            int variantId,
+            string modelName,
+            int brandId,
+            int typeId,
+            int materialId,
+            List<int> categoryIds,
+            int colorId,
+            decimal price,
+            int quantity,
+            DateTime arrivalDate,
+            List<string> imagePaths,
+            bool replaceImages)
         {
             await using var connection = DatabaseManager.GetConnection();
             await connection.OpenAsync();
@@ -887,6 +893,7 @@ namespace BagsOn.Repositories
                 throw;
             }
         }
+        // Метод  виконує логічне видалення варіанта товару.
         public async Task DeleteVariantAsync(int productId, int variantId)
         {
             await using var connection = DatabaseManager.GetConnection();

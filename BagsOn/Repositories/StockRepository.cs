@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace BagsOn.Repositories
 {
+    // Клас StockRepository відповідає за роботу зі складом у базі даних.
     public class StockRepository
     {
+        // Метод GetStockItemsAsync отримує повний список товарів на складі.
         public async Task<List<StockItem>> GetStockItemsAsync()
         {
             List<StockItem> stockItems = new List<StockItem>();
@@ -59,7 +61,7 @@ namespace BagsOn.Repositories
 
             return stockItems;
         }
-
+        // Метод ReadStockItem перетворює один рядок результату SQL-запиту
         private StockItem ReadStockItem(NpgsqlDataReader reader)
         {
             return new StockItem
@@ -121,7 +123,7 @@ namespace BagsOn.Repositories
 
             return Convert.ToInt32(reader[index]);
         }
-
+        // Метод GetDecimal безпечно зчитує десяткове число з вказаної колонки.
         private decimal GetDecimal(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -133,7 +135,7 @@ namespace BagsOn.Repositories
 
             return Convert.ToDecimal(reader[index]);
         }
-
+        // Метод GetDateTime безпечно зчитує дату і час з вказаної колонки.
         private DateTime GetDateTime(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -157,7 +159,7 @@ namespace BagsOn.Repositories
 
             return DateTime.Parse(value.ToString()!);
         }
-
+        // Метод GetStockMovementsAsync отримує історію руху конкретного варіанту товару.
         public async Task<List<StockMovement>> GetStockMovementsAsync(int variantId)
         {
             List<StockMovement> movements = new List<StockMovement>();
@@ -204,6 +206,8 @@ namespace BagsOn.Repositories
 
             return movements;
         }
+
+        // Метод AddIncomingAsync додає надходження товару на склад.
         public async Task AddIncomingAsync(int variantId, int quantity, string comment)
         {
             if (quantity <= 0)
@@ -338,6 +342,8 @@ namespace BagsOn.Repositories
                 throw;
             }
         }
+
+        // Метод GetNullableInt безпечно зчитує ціле число, яке може бути відсутнім.
         private int? GetNullableInt(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -349,6 +355,7 @@ namespace BagsOn.Repositories
 
             return Convert.ToInt32(reader[index]);
         }
+        // Метод WriteOffStockAsync виконує списання товару зі складу.
         public async Task WriteOffStockAsync(int variantId, int quantity, string reason, string comment)
         {
             if (quantity <= 0)
@@ -512,6 +519,8 @@ namespace BagsOn.Repositories
                 throw;
             }
         }
+
+        // Метод AdjustStockAsync виконує коригування залишку товару на складі.
         public async Task AdjustStockAsync(int variantId, int newTotalQuantity, string comment)
         {
             if (newTotalQuantity < 0)

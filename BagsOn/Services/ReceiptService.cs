@@ -8,11 +8,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-
+// Клас ReceiptService відповідає за формування чека замовлення.
 namespace BagsOn.Services
 {
     public static class ReceiptService
     {
+        
+        // Метод PrintReceipt відкриває стандартне вікно друку і друкує чек замовлення.
         public static void PrintReceipt(Order order, List<OrderItemDetail> items)
         {
             FlowDocument document = CreatePrintDocument(order, items);
@@ -29,7 +31,9 @@ namespace BagsOn.Services
                 );
             }
         }
-
+        // Метод ExportReceiptToPdf створює PDF-чек для вибраного замовлення.
+        // У документ додаються номер замовлення, дата, дані клієнта, спосіб доставки,
+        // таблиця товарів і підсумкова сума до оплати.
 
         public static void ExportReceiptToPdf(Order order, List<OrderItemDetail> items, string filePath)
         {
@@ -156,7 +160,9 @@ namespace BagsOn.Services
             .GeneratePdf(filePath);
         }
 
-
+        // Метод CreatePrintDocument створює документ для друку чека у форматі FlowDocument.
+        // Він формує заголовок, інформацію про замовлення, клієнта, доставку, таблицю товарів
+        // і загальну суму замовлення.
         private static FlowDocument CreatePrintDocument(Order order, List<OrderItemDetail> items)
         {
             FlowDocument document = new FlowDocument();
@@ -258,7 +264,7 @@ namespace BagsOn.Services
 
             return document;
         }
-
+        // Метод CreateParagraph створює абзац для друкованого документа.
 
         private static Paragraph CreateParagraph(string text)
         {
@@ -267,7 +273,7 @@ namespace BagsOn.Services
                 Margin = new Thickness(0, 0, 0, 5)
             };
         }
-
+        // Метод CreateTableCell створює комірку таблиці для друкованого чека.
 
         private static TableCell CreateTableCell(string text, bool isHeader)
         {
@@ -287,7 +293,7 @@ namespace BagsOn.Services
             return cell;
         }
 
-
+        // Метод HeaderCell задає стиль для комірки заголовка у PDF-чеку.
         private static IContainer HeaderCell(IContainer container)
         {
             return container
@@ -297,7 +303,7 @@ namespace BagsOn.Services
                 .Padding(6);
         }
 
-
+        // Метод Cell задає стиль для звичайної комірки у PDF-чеку.
         private static IContainer Cell(IContainer container)
         {
             return container
@@ -306,7 +312,7 @@ namespace BagsOn.Services
                 .Padding(6);
         }
 
-
+        // Метод повертає безпечний текст для відображення у звіті або чеку.
         private static string GetText(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

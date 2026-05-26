@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace BagsOn.Repositories
 {
+    // Клас ReportsRepository відповідає за формування звітів на основі даних з бази даних.
     public class ReportsRepository
     {
+        // Метод GetSalesReportAsync формує звіт про продажі за вибраний період.
         public async Task<DataTable> GetSalesReportAsync(DateTime dateFrom, DateTime dateTo)
         {
             await using var connection = DatabaseManager.GetConnection();
@@ -41,7 +43,7 @@ namespace BagsOn.Repositories
 
             return table;
         }
-
+        // Метод GetStockReportAsync формує загальний звіт по складу.
         public async Task<DataTable> GetStockReportAsync()
         {
             await using var connection = DatabaseManager.GetConnection();
@@ -73,7 +75,7 @@ namespace BagsOn.Repositories
 
             return table;
         }
-
+        /// Метод GetStockMovementsReportAsync формує звіт про рух товарів на складі за вибраний період.
         public async Task<DataTable> GetStockMovementsReportAsync(DateTime dateFrom, DateTime dateTo)
         {
             await using var connection = DatabaseManager.GetConnection();
@@ -111,7 +113,7 @@ namespace BagsOn.Repositories
 
             return table;
         }
-
+        /// Метод GetLowStockReportAsync формує звіт про товари, яких залишилося мало
         public async Task<DataTable> GetLowStockReportAsync()
         {
             await using var connection = DatabaseManager.GetConnection();

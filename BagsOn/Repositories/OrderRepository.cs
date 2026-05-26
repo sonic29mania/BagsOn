@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace BagsOn.Repositories
 {
+    //Клас OrderRepository відповідає за роботу із замовленнями в базі даних.
     public class OrderRepository
     {
+        /// Метод GetAllOrdersAsync отримує список активних замовлень.
         public async Task<List<Order>> GetAllOrdersAsync()
         {
             List<Order> orders = new List<Order>();
@@ -59,7 +61,7 @@ namespace BagsOn.Repositories
             return orders;
         }
 
-
+        /// Метод GetArchivedOrdersAsync отримує список архівних замовлень.
         public async Task<List<Order>> GetArchivedOrdersAsync()
         {
             List<Order> orders = new List<Order>();
@@ -120,7 +122,9 @@ namespace BagsOn.Repositories
 
             return orders;
         }
-
+        /// Метод ReadOrder створює об'єкт Order на основі даних,
+        /// отриманих з результату SQL-запиту.
+        /// Він зчитує значення з NpgsqlDataReader і заповнює властивості замовлення.
         private Order ReadOrder(NpgsqlDataReader reader)
         {
             Order order = new Order
@@ -164,7 +168,7 @@ namespace BagsOn.Repositories
             return order;
         }
 
-
+        /// Метод GetOrderStatusesAsync отримує список статусів замовлень.
         public async Task<List<ReferenceItem>> GetOrderStatusesAsync()
         {
             List<ReferenceItem> items = new List<ReferenceItem>();
@@ -193,7 +197,7 @@ namespace BagsOn.Repositories
             return items;
         }
 
-
+        /// Метод GetDeliveryTypesAsync отримує список типів доставки.
         public async Task<List<ReferenceItem>> GetDeliveryTypesAsync()
         {
             List<ReferenceItem> items = new List<ReferenceItem>();
@@ -222,7 +226,7 @@ namespace BagsOn.Repositories
             return items;
         }
 
-
+        /// Метод GetArchiveReasonsAsync отримує список причин архівації замовлення.
         public async Task<List<ReferenceItem>> GetArchiveReasonsAsync()
         {
             List<ReferenceItem> reasons = new List<ReferenceItem>();
@@ -251,7 +255,7 @@ namespace BagsOn.Repositories
             return reasons;
         }
 
-
+        /// Метод UpdateOrderAsync оновлює інформацію про замовлення та пов'язаного клієнта.
         public async Task UpdateOrderAsync(
             int orderId,
             int? customerId,
@@ -437,7 +441,7 @@ namespace BagsOn.Repositories
             }
         }
 
-
+        /// Метод ArchiveOrderAsync переносить замовлення до архіву.
         public async Task ArchiveOrderAsync(
             int orderId,
             int archiveReasonId,
@@ -481,7 +485,7 @@ namespace BagsOn.Repositories
             await command.ExecuteNonQueryAsync();
         }
 
-
+        /// Метод GetOrderItemsAsync отримує список товарів, які входять до конкретного замовлення.
         public async Task<List<OrderItemDetail>> GetOrderItemsAsync(int orderId)
         {
             List<OrderItemDetail> items = new List<OrderItemDetail>();
@@ -554,7 +558,7 @@ namespace BagsOn.Repositories
 
             return items;
         }
-
+        /// Метод UpdateOrderStatusAsync змінює статус замовлення.
         public async Task UpdateOrderStatusAsync(int orderId, int statusId)
         {
             await using var connection = DatabaseManager.GetConnection();
@@ -665,7 +669,7 @@ namespace BagsOn.Repositories
 
             await command.ExecuteNonQueryAsync();
         }
-
+        /// Метод CancelOrderAsync деактивує замовлення.
         public async Task CancelOrderAsync(int orderId)
         {
             await using var connection = DatabaseManager.GetConnection();
@@ -685,7 +689,7 @@ namespace BagsOn.Repositories
             await command.ExecuteNonQueryAsync();
         }
 
-
+        /// Метод GetString безпечно зчитує текстове значення з вказаної колонки.
         private string GetString(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -698,7 +702,7 @@ namespace BagsOn.Repositories
             return reader.GetString(index);
         }
 
-
+        /// Метод GetInt безпечно зчитує ціле число з вказаної колонки.
         private int GetInt(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -711,7 +715,7 @@ namespace BagsOn.Repositories
             return Convert.ToInt32(reader[index]);
         }
 
-
+        /// Метод GetNullableInt безпечно зчитує ціле число, яке може бути відсутнім.
         private int? GetNullableInt(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -724,7 +728,7 @@ namespace BagsOn.Repositories
             return Convert.ToInt32(reader[index]);
         }
 
-
+        /// Метод GetDecimal безпечно зчитує десяткове число з вказаної колонки.
         private decimal GetDecimal(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -737,7 +741,7 @@ namespace BagsOn.Repositories
             return Convert.ToDecimal(reader[index]);
         }
 
-
+        /// Метод GetBool безпечно зчитує логічне значення з вказаної колонки.
         private bool GetBool(NpgsqlDataReader reader, string columnName, bool defaultValue)
         {
             int index = reader.GetOrdinal(columnName);
@@ -749,7 +753,7 @@ namespace BagsOn.Repositories
 
             return Convert.ToBoolean(reader[index]);
         }
-
+        /// Метод GetDateTime безпечно зчитує дату з вказаної колонки.
         private DateTime GetDateTime(NpgsqlDataReader reader, string columnName, DateTime defaultValue)
         {
             int index = reader.GetOrdinal(columnName);
@@ -824,7 +828,7 @@ namespace BagsOn.Repositories
             return TimeSpan.Parse(value.ToString()!);
         }
 
-
+        /// Метод GetNullableTimeSpan безпечно зчитує час, який може бути відсутнім.
         private TimeSpan? GetNullableTimeSpan(NpgsqlDataReader reader, string columnName)
         {
             int index = reader.GetOrdinal(columnName);
@@ -848,6 +852,8 @@ namespace BagsOn.Repositories
 
             return TimeSpan.Parse(value.ToString()!);
         }
+
+        /// Метод RestoreOrderFromArchiveAsync відновлює замовлення з архіву.
         public async Task<bool> RestoreOrderFromArchiveAsync(int orderId)
         {
             await using var connection = DatabaseManager.GetConnection();

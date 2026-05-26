@@ -10,6 +10,8 @@ using System.Windows.Data;
 
 namespace BagsOn.ViewModels
 {
+    /// Клас AnalyticsVM є ViewModel для сторінки аналітики та звітів.
+    /// Він завантажує підсумкові показники, популярні товари, товари для докупівлі, рух товарів на складі та формує звіти за вибраний період.
     public class AnalyticsVM : BaseViewModel
     {
         private readonly AnalyticsRepository _analyticsRepository;
@@ -54,7 +56,8 @@ namespace BagsOn.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        // Конструктор AnalyticsVM створює репозиторії аналітики та звітів, ініціалізує колекції,
+        /// налаштовує типи звітів, фільтр руху товарів і встановлює період за замовчуванням — поточний місяць.
         public AnalyticsVM()
         {
             _analyticsRepository = new AnalyticsRepository();
@@ -95,7 +98,7 @@ namespace BagsOn.ViewModels
 
             _ = LoadAnalyticsAsync();
         }
-
+        // Метод LoadAnalyticsAsync асинхронно завантажує основні аналітичні дані за вибраний період.
         public async Task LoadAnalyticsAsync()
         {
             DateTime from = DateFrom ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -203,6 +206,7 @@ namespace BagsOn.ViewModels
                 OnPropertyChanged();
             }
         }
+        /// Метод GetMovementsForExport формує список рухів товарів, які потрібно експортувати.
         public List<AnalyticsStockMovement> GetMovementsForExport()
         {
             IEnumerable<AnalyticsStockMovement> movements = StockMovements;
@@ -320,6 +324,8 @@ namespace BagsOn.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        // Метод  формує вибраний звіт за поточний період.
         public async Task GenerateReportAsync()
         {
             if (SelectedReportType == null)
@@ -363,6 +369,9 @@ namespace BagsOn.ViewModels
             ReportStatusText =
                 $"Звіт сформовано. Рядків: {table.Rows.Count}. Період: {from:dd.MM.yyyy} - {to:dd.MM.yyyy}.";
         }
+
+        // Метод FilterStockMovements визначає, чи потрібно показувати конкретний рух товару в таблиці аналітики.
+        /// Він перевіряє вибраний тип руху та текст пошуку.
         private bool FilterStockMovements(object obj)
         {
             if (obj is not AnalyticsStockMovement movement)
@@ -395,7 +404,7 @@ namespace BagsOn.ViewModels
 
             return true;
         }
-
+        // Метод RefreshMovementStatistics повідомляє інтерфейс про зміну статистики руху товарів.
         private void RefreshMovementStatistics()
         {
             OnPropertyChanged(nameof(IncomingQuantity));
@@ -403,18 +412,19 @@ namespace BagsOn.ViewModels
             OnPropertyChanged(nameof(SalesQuantity));
             OnPropertyChanged(nameof(ReturnQuantity));
         }
+        // Метод SetThisMonth встановлює період аналітики на поточний місяць.
         public void SetThisMonth()
         {
             DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTo = DateTime.Now;
         }
-
+        // Метод SetLast7Days встановлює період аналітики за останні сім днів.
         public void SetLast7Days()
         {
             DateFrom = DateTime.Now.AddDays(-7);
             DateTo = DateTime.Now;
         }
-
+        /// Метод SetToday встановлює період аналітики тільки на сьогоднішній день.
         public void SetToday()
         {
             DateFrom = DateTime.Now.Date;

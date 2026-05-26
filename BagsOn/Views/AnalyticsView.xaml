@@ -114,18 +114,82 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
-        <!-- TABS -->
+        <!-- BEAUTIFUL TABS -->
 
-        <Style TargetType="TabControl">
+        <Style TargetType="{x:Type TabControl}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
         </Style>
 
-        <Style TargetType="TabItem">
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="#6B7280"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="18 8"/>
-            <Setter Property="Margin" Value="0 0 6 0"/>
+            <Setter Property="Margin" Value="0 0 10 0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+
+                        <Border x:Name="TabBorder"
+                        MinWidth="150"
+                        Height="42"
+                        Background="#F3F4F6"
+                        BorderBrush="#E5E7EB"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                        Padding="18 0">
+
+                            <ContentPresenter ContentSource="Header"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TabBorder"
+                                Property="Background"
+                                Value="#EEF2FF"/>
+
+                                <Setter TargetName="TabBorder"
+                                Property="BorderBrush"
+                                Value="#C7D2FE"/>
+
+                                <Setter Property="Foreground"
+                                Value="#4F46E5"/>
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabBorder"
+                                Property="Background"
+                                Value="#5B8DEF"/>
+
+                                <Setter TargetName="TabBorder"
+                                Property="BorderBrush"
+                                Value="#5B8DEF"/>
+
+                                <Setter Property="Foreground"
+                                Value="White"/>
+
+                                <Setter TargetName="TabBorder"
+                                Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="18"
+                                                  ShadowDepth="0"
+                                                  Opacity="0.20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!-- DATAGRID -->

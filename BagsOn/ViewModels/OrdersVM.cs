@@ -5,7 +5,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Data;
-
+// Клас OrdersVM є ViewModel для сторінки замовлень.
+// Він завантажує активні та архівні замовлення, керує фільтрами,
+// оновлює вкладки та забезпечує відображення даних у таблицях інтерфейсу.
 namespace BagsOn.ViewModels
 {
     public class OrdersVM : BaseViewModel
@@ -39,10 +41,7 @@ namespace BagsOn.ViewModels
                 return $"Архів ({ArchivedOrders.Count})";
             }
         }
-
-        // ============================
         // ФІЛЬТРИ ДЛЯ АКТИВНИХ ЗАМОВЛЕНЬ
-        // ============================
 
         private string _activeSearchText = string.Empty;
 
@@ -109,9 +108,8 @@ namespace BagsOn.ViewModels
             }
         }
 
-        // ============================
+
         // ФІЛЬТРИ ДЛЯ АРХІВУ
-        // ============================
 
         private string _archiveSearchText = string.Empty;
 
@@ -177,7 +175,8 @@ namespace BagsOn.ViewModels
                 RefreshArchiveView();
             }
         }
-
+        // Конструктор OrdersVM створює репозиторій замовлень, колекції для активних і архівних замовлень,
+        // налаштовує фільтрацію для обох таблиць та запускає завантаження замовлень і довідників.
         public OrdersVM()
         {
             _orderRepository = new OrderRepository();
@@ -197,7 +196,7 @@ namespace BagsOn.ViewModels
             _ = LoadOrdersAsync();
             _ = LoadFiltersAsync();
         }
-
+        // Метод  асинхронно завантажує активні та архівні замовлення з бази даних.
         public async Task LoadOrdersAsync()
         {
             var activeOrders = await _orderRepository.GetAllOrdersAsync();
@@ -220,7 +219,7 @@ namespace BagsOn.ViewModels
             UpdateTabTitles();
             RefreshAllViews();
         }
-
+        // Метод завантажує довідкові дані для фільтрів замовлень.
         private async Task LoadFiltersAsync()
         {
             Statuses.Clear();
@@ -236,7 +235,7 @@ namespace BagsOn.ViewModels
                 DeliveryTypes.Add(deliveryType);
             }
         }
-
+        // Метод FilterActiveOrders визначає, чи потрібно показувати активне замовлення у таблиці.
         private bool FilterActiveOrders(object obj)
         {
             if (obj is not Order order)
@@ -288,7 +287,7 @@ namespace BagsOn.ViewModels
 
             return true;
         }
-
+        // Метод FilterArchivedOrders визначає, чи потрібно показувати архівне замовлення у таблиці.
         private bool FilterArchivedOrders(object obj)
         {
             if (obj is not Order order)
@@ -301,13 +300,13 @@ namespace BagsOn.ViewModels
                 string search = ArchiveSearchText.Trim().ToLower();
 
                 bool containsSearch =
-     order.OrderId.ToString().Contains(search) ||
-     order.CustomerName.ToLower().Contains(search) ||
-     order.Phone.ToLower().Contains(search) ||
-     order.City.ToLower().Contains(search) ||
-     order.StatusName.ToLower().Contains(search) ||
-     order.DeliveryTypeName.ToLower().Contains(search) ||
-     order.UrgencyText.ToLower().Contains(search);
+                     order.OrderId.ToString().Contains(search) ||
+                     order.CustomerName.ToLower().Contains(search) ||
+                     order.Phone.ToLower().Contains(search) ||
+                     order.City.ToLower().Contains(search) ||
+                     order.StatusName.ToLower().Contains(search) ||
+                     order.DeliveryTypeName.ToLower().Contains(search) ||
+                     order.UrgencyText.ToLower().Contains(search);
 
                 if (!containsSearch)
                 {
@@ -348,15 +347,24 @@ namespace BagsOn.ViewModels
             return true;
         }
 
+
+        /// Метод  оновлює відображення активних замовлень після зміни фільтрів.
+
         private void RefreshActiveView()
         {
             OrdersView.Refresh();
         }
 
+
+        /// Метод  оновлює відображення архівних замовлень після зміни фільтрів.
+
         private void RefreshArchiveView()
         {
             ArchivedOrdersView.Refresh();
         }
+
+
+        /// Метод RefreshAllViews одночасно оновлює таблицю активних замовлень і таблицю архіву.
 
         private void RefreshAllViews()
         {
@@ -364,12 +372,18 @@ namespace BagsOn.ViewModels
             ArchivedOrdersView.Refresh();
         }
 
+
+        /// Метод UpdateTabTitles повідомляє інтерфейс про зміну назв вкладок.
+        /// Це потрібно, щоб кількість активних та архівних замовлень у заголовках оновлювалася після завантаження даних.
         private void UpdateTabTitles()
         {
             OnPropertyChanged(nameof(ActiveTabTitle));
             OnPropertyChanged(nameof(ArchiveTabTitle));
         }
 
+        /// Метод ClearActiveFilters очищає всі фільтри для вкладки активних замовлень.
+        /// Він скидає пошук, статус, тип доставки та діапазон дат.
+ 
         public void ClearActiveFilters()
         {
             ActiveSearchText = string.Empty;
@@ -381,6 +395,10 @@ namespace BagsOn.ViewModels
             RefreshActiveView();
         }
 
+       
+        /// Метод ClearArchiveFilters очищає всі фільтри для вкладки архівних замовлень.
+        /// Він скидає пошук, статус, причину архівації та діапазон дат.
+     
         public void ClearArchiveFilters()
         {
             ArchiveSearchText = string.Empty;
@@ -391,6 +409,10 @@ namespace BagsOn.ViewModels
 
             RefreshArchiveView();
         }
+
+       
+        /// Метод ClearFilters очищає фільтри одразу для активних і архівних замовлень.
+        /// Він викликає окремі методи очищення для обох вкладок.
 
         public void ClearFilters()
         {

@@ -1,4 +1,5 @@
-﻿namespace BagsOn.Models
+﻿/// Клас ProductImage описує зображення товару.
+namespace BagsOn.Models
 {
     public class ProductImage
     {

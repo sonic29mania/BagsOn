@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace BagsOn.Repositories
 {
+    // Клас AnalyticsRepository відповідає за отримання аналітичних даних з бази даних.
     public class AnalyticsRepository
     {
+        /// Метод GetSummaryAsync отримує загальну аналітичну інформацію за вибраний період.
+        /// Він рахує кількість замовлень, дохід, середній чек, кількість виконаних і скасованих
+        /// замовлень, а також додаткову інформацію про склад: товари з малою кількістю,
+        /// відсутні товари та зарезервовані позиції.
         public async Task<AnalyticsSummary> GetSummaryAsync(DateTime dateFrom, DateTime dateTo)
         {
             AnalyticsSummary summary = new AnalyticsSummary();
@@ -81,7 +86,7 @@ namespace BagsOn.Repositories
 
             return summary;
         }
-
+        /// Метод GetTopProductsAsync отримує список найпопулярніших товарів за вибраний період.
         public async Task<List<AnalyticsTopProduct>> GetTopProductsAsync(DateTime dateFrom, DateTime dateTo)
         {
             List<AnalyticsTopProduct> products = new List<AnalyticsTopProduct>();
@@ -129,7 +134,7 @@ namespace BagsOn.Repositories
 
             return products;
         }
-
+        /// Метод GetReplenishmentItemsAsync отримує список товарів, які потрібно докупити на склад.
         public async Task<List<AnalyticsReplenishmentItem>> GetReplenishmentItemsAsync()
         {
             List<AnalyticsReplenishmentItem> items = new List<AnalyticsReplenishmentItem>();
@@ -173,6 +178,8 @@ namespace BagsOn.Repositories
 
             return items;
         }
+
+        /// Метод GetStockMovementsForAnalyticsAsync отримує історію руху товарів на складі за вибраний період.
         public async Task<List<AnalyticsStockMovement>> GetStockMovementsForAnalyticsAsync(DateTime dateFrom, DateTime dateTo)
         {
             List<AnalyticsStockMovement> movements = new List<AnalyticsStockMovement>();

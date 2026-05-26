@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Data;
-
+// Клас StockVM є ViewModel для сторінки складу.
 namespace BagsOn.ViewModels
 {
     public class StockVM : BaseViewModel
@@ -119,7 +119,8 @@ namespace BagsOn.ViewModels
                 return value;
             }
         }
-
+        // Конструктор StockVM створює репозиторій складу, колекції товарів і статусів,
+        // налаштовує фільтрацію StockItemsView та запускає початкове завантаження залишків.
         public StockVM()
         {
             _stockRepository = new StockRepository();
@@ -140,7 +141,7 @@ namespace BagsOn.ViewModels
 
             _ = LoadStockAsync();
         }
-
+        // Метод асинхронно завантажує інформацію про залишки товарів зі складу.
         public async Task LoadStockAsync()
         {
             var items = await _stockRepository.GetStockItemsAsync();
@@ -156,7 +157,7 @@ namespace BagsOn.ViewModels
 
             StockItemsView.Refresh();
         }
-
+        // Метод визначає, чи потрібно показувати товар у таблиці складу.
         private bool FilterStockItems(object obj)
         {
             if (obj is not StockItem item)
@@ -192,7 +193,7 @@ namespace BagsOn.ViewModels
 
             return true;
         }
-
+        // Метод очищає пошук і фільтр за статусом складу.
         public void ClearFilters()
         {
             SearchText = string.Empty;
@@ -200,7 +201,7 @@ namespace BagsOn.ViewModels
 
             StockItemsView.Refresh();
         }
-
+        // Метод повідомляє інтерфейс про зміну підсумкових показників складу.
         private void RefreshStatistics()
         {
             OnPropertyChanged(nameof(TotalPositionsCount));

@@ -9,15 +9,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-
+// Клас StockReportService відповідає за створення деталізованих звітів по складу.
 namespace BagsOn.Services
 {
     public static class StockReportService
     {
+        // Метод ExportToExcel формує Excel-звіт по складу.
         public static void ExportToExcel(
-     List<StockItem> items,
-     Dictionary<int, List<StockMovement>> movementsByVariant,
-     string filePath)
+             List<StockItem> items,
+             Dictionary<int, List<StockMovement>> movementsByVariant,
+             string filePath)
         {
             using XLWorkbook workbook = new XLWorkbook();
 
@@ -180,11 +181,13 @@ namespace BagsOn.Services
 
             workbook.SaveAs(filePath);
         }
-
+        // Метод ExportToPdf формує деталізований PDF-звіт по складу.
+        // Для кожного товару він показує залишки, резерв, доступну кількість, статус
+        // і таблицю руху товарів по відповідному варіанту.
         public static void ExportToPdf(
-    List<StockItem> items,
-    Dictionary<int, List<StockMovement>> movementsByVariant,
-    string filePath)
+            List<StockItem> items,
+            Dictionary<int, List<StockMovement>> movementsByVariant,
+            string filePath)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -303,10 +306,10 @@ namespace BagsOn.Services
             })
             .GeneratePdf(filePath);
         }
-
+        // Метод PrintStockReport відкриває діалог друку і друкує деталізований звіт по складу.
         public static void PrintStockReport(
-    List<StockItem> items,
-    Dictionary<int, List<StockMovement>> movementsByVariant)
+            List<StockItem> items,
+            Dictionary<int, List<StockMovement>> movementsByVariant)
         {
             PrintDialog printDialog = new PrintDialog();
 
@@ -332,10 +335,10 @@ namespace BagsOn.Services
             );
         }
 
-
+        // Метод CreatePrintDocument створює FlowDocument для друку складського звіту.
         private static FlowDocument CreatePrintDocument(
-    List<StockItem> items,
-    Dictionary<int, List<StockMovement>> movementsByVariant)
+            List<StockItem> items,
+            Dictionary<int, List<StockMovement>> movementsByVariant)
         {
             FlowDocument document = new FlowDocument();
 
@@ -456,7 +459,7 @@ namespace BagsOn.Services
 
             return document;
         }
-
+        // Метод CreatePrintCell створює комірку таблиці для друкованого складського звіту.
         private static TableCell CreatePrintCell(string text, bool isHeader)
         {
             TableCell cell = new TableCell(new Paragraph(new Run(text)))

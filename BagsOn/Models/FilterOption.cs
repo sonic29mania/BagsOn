@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+/// Клас FilterOption описує один варіант фільтрації, наприклад бренд, колір, категорію або матеріал. Він реалізує
+/// INotifyPropertyChanged, щоб інтерфейс автоматично оновлювався при виборі або знятті вибору фільтра.
 namespace BagsOn.Models
 {
     public class FilterOption : INotifyPropertyChanged

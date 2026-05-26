@@ -1,4 +1,6 @@
-﻿namespace BagsOn.Models
+﻿
+/// Клас AnalyticsSummary зберігає загальні підсумкові показники для аналітики магазину.
+namespace BagsOn.Models
 {
     public class AnalyticsSummary
     {

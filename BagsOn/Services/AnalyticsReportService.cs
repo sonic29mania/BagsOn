@@ -5,11 +5,14 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System;
 using System.Collections.Generic;
-
+// Клас AnalyticsReportService відповідає за створення аналітичних звітів по руху товарів.
+// Він експортує дані про складські операції у файли Excel та PDF.
 namespace BagsOn.Services
 {
     public static class AnalyticsReportService
     {
+
+        // Метод ExportStockMovementsToExcel формує Excel-звіт по руху товарів на складі.
         public static void ExportStockMovementsToExcel(
             List<AnalyticsStockMovement> movements,
             string filePath)
@@ -98,7 +101,7 @@ namespace BagsOn.Services
 
             workbook.SaveAs(filePath);
         }
-
+        // Метод формує PDF-звіт по руху товарів на складі.
         public static void ExportStockMovementsToPdf(
             List<AnalyticsStockMovement> movements,
             string filePath)
@@ -198,7 +201,7 @@ namespace BagsOn.Services
             })
             .GeneratePdf(filePath);
         }
-
+        // Метод  додає стилізовану комірку заголовка таблиці у PDF-документі.
         private static void AddPdfHeaderCell(TableCellDescriptor header, string text)
         {
             header.Cell()
@@ -210,7 +213,8 @@ namespace BagsOn.Services
                 .Bold()
                 .FontSize(8);
         }
-
+        // Метод додає звичайну комірку до таблиці PDF-документа.
+        // Він використовується для виведення даних у рядках звіту.
         private static void AddPdfCell(TableDescriptor table, string text)
         {
             table.Cell()

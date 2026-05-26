@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace BagsOn.ViewModels
-{
+{// Клас ProductsVM є ViewModel для сторінки асортименту товарів.
     public class ProductsVM : BaseViewModel
     {
         private readonly ProductRepository _productRepository;
@@ -88,7 +88,8 @@ namespace BagsOn.ViewModels
         public string MaterialSummary => GetFilterSummary("Матеріал", Materials);
         public string ColorSummary => GetFilterSummary("Колір", Colors);
 
-
+        // Конструктор ProductsVM створює репозиторій товарів, колекції для товарів і фільтрів,
+        // налаштовує фільтрацію ProductsView та запускає початкове завантаження даних з бази.
         public ProductsVM()
         {
             _productRepository = new ProductRepository();
@@ -110,7 +111,7 @@ namespace BagsOn.ViewModels
             _ = LoadFiltersAsync();
         }
 
-
+        // Метод LoadProductsAsync асинхронно завантажує список активних товарів з бази даних.
         public async Task LoadProductsAsync()
         {
             var productsFromDb = await _productRepository.GetAllProductsAsync();
@@ -125,7 +126,7 @@ namespace BagsOn.ViewModels
             ProductsView.Refresh();
         }
 
-
+        // Метод асинхронно завантажує значення для фільтрів
         private async Task LoadFiltersAsync()
         {
             ClearFilterCollection(Brands);
@@ -162,7 +163,7 @@ namespace BagsOn.ViewModels
             }
         }
 
-
+        // Метод очищає колекцію фільтра.
         private void ClearFilterCollection(ObservableCollection<FilterOption> collection)
         {
             foreach (var item in collection)
@@ -173,7 +174,7 @@ namespace BagsOn.ViewModels
             collection.Clear();
         }
 
-
+        // Метод реагує на зміну вибору окремого фільтра.
         private void FilterOption_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(FilterOption.IsSelected))
@@ -182,7 +183,7 @@ namespace BagsOn.ViewModels
             }
         }
 
-
+        // Метод оновлює фільтроване відображення товарів.
         private void RefreshFilters()
         {
             ProductsView.Refresh();
@@ -196,7 +197,7 @@ namespace BagsOn.ViewModels
             OnPropertyChanged(nameof(ColorSummary));
         }
 
-
+        // Метод формує короткий текст для кнопки або заголовка фільтра.
         private string GetFilterSummary(string title, ObservableCollection<FilterOption> options)
         {
             int count = options.Count(x => x.IsSelected);
@@ -214,7 +215,7 @@ namespace BagsOn.ViewModels
             return $"{title}: {count}";
         }
 
-
+        // Метод перевіряє, чи повинен товар відображатися у списку.
         private bool FilterProducts(object obj)
         {
             if (obj is not Product product)
@@ -289,7 +290,7 @@ namespace BagsOn.ViewModels
             return true;
         }
 
-
+        // Метод перевіряє точну відповідність значення вибраним елементам фільтра.
         private bool MatchesExactFilter(string value, ObservableCollection<FilterOption> options)
         {
             var selected = options.Where(x => x.IsSelected).ToList();
@@ -302,7 +303,7 @@ namespace BagsOn.ViewModels
             return selected.Any(x => value == x.Name);
         }
 
-
+        // Метод перевіряє, чи містить значення назву одного з вибраних фільтрів.
         private bool MatchesContainsFilter(string value, ObservableCollection<FilterOption> options)
         {
             var selected = options.Where(x => x.IsSelected).ToList();
@@ -317,7 +318,7 @@ namespace BagsOn.ViewModels
             return selected.Any(x => lowerValue.Contains(x.Name.ToLower()));
         }
 
-
+        // Метод TryParsePrice намагається перетворити введений текст у десяткове число.
         private bool TryParsePrice(string text, out decimal price)
         {
             price = 0;
@@ -337,7 +338,7 @@ namespace BagsOn.ViewModels
             );
         }
 
-
+        // Метод перебудовує список активних фільтрів, які показуються в інтерфейсі як окремі мітки.
         private void RebuildActiveFilterChips()
         {
             ActiveFilterChips.Clear();
@@ -385,7 +386,7 @@ namespace BagsOn.ViewModels
             }
         }
 
-
+        // Метод AddOptionChips додає в інтерфейс мітки для вибраних елементів конкретного фільтра.
         private void AddOptionChips(string title, ObservableCollection<FilterOption> options)
         {
             foreach (var option in options.Where(x => x.IsSelected))
@@ -399,7 +400,7 @@ namespace BagsOn.ViewModels
             }
         }
 
-
+        // Метод видаляє один активний фільтр за натисканням на його мітку.
         public void RemoveFilterChip(FilterChip chip)
         {
             if (chip.Option != null)
@@ -428,7 +429,7 @@ namespace BagsOn.ViewModels
             RefreshFilters();
         }
 
-
+        // Метод  повністю очищає всі фільтри сторінки асортименту.
         public void ClearFilters()
         {
             SearchText = string.Empty;

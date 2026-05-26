@@ -9,14 +9,118 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.105.0" />
-    <PackageReference Include="Npgsql" Version="10.0.2" />
-    <PackageReference Include="QuestPDF" Version="2026.5.0" />
+    <Compile Remove="Новая папка\**" />
+    <EmbeddedResource Remove="Новая папка\**" />
+    <None Remove="Новая папка\**" />
+    <Page Remove="Новая папка\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\products\" />
-    <Folder Include="Новая папка\" />
+    <None Remove="Images\products\bagllet_shopper_white - Копировать - Копировать.png" />
+    <None Remove="Images\products\bagllet_shopper_white.png" />
+    <None Remove="Images\products\birkin_black - Копировать %282%29.jpg" />
+    <None Remove="Images\products\birkin_black - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\birkin_black.jpg" />
+    <None Remove="Images\products\chanel_flap_beige - Копировать %282%29.jpg" />
+    <None Remove="Images\products\chanel_flap_beige - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\chanel_flap_beige.jpg" />
+    <None Remove="Images\products\chanel_flap_black - Копировать %282%29.jpg" />
+    <None Remove="Images\products\chanel_flap_black - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\chanel_flap_black - Копировать.jpg" />
+    <None Remove="Images\products\chanel_flap_black.jpg" />
+    <None Remove="Images\products\coach_duffle_gray - Копировать %282%29.jpg" />
+    <None Remove="Images\products\coach_duffle_gray - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\coach_duffle_gray.jpg" />
+    <None Remove="Images\products\dior_clutch_gold - Копировать %282%29.jpg" />
+    <None Remove="Images\products\dior_clutch_gold - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\dior_clutch_gold.jpg" />
+    <None Remove="Images\products\hermes_birkin_black_new - Копировать %282%29.jpg" />
+    <None Remove="Images\products\hermes_birkin_black_new - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\hermes_birkin_black_new.jpg" />
+    <None Remove="Images\products\hermes_birkin_brown - Копировать %282%29.jpg" />
+    <None Remove="Images\products\hermes_birkin_brown - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\hermes_birkin_brown.jpg" />
+    <None Remove="Images\products\katimo_backpack_blue - Копировать - Копировать %282%29.jpg" />
+    <None Remove="Images\products\katimo_backpack_blue - Копировать - Копировать.jpg" />
+    <None Remove="Images\products\katimo_backpack_blue.jpg" />
+    <None Remove="Images\products\Katy_soho_MaoMao_black.jpg" />
+    <None Remove="Images\products\Katy_soho_MaoMao_black_2.jpg" />
+    <None Remove="Images\products\Katy_soho_MaoMao_blue.jpg" />
+    <None Remove="Images\products\Katy_soho_MaoMao_blue_2 - Копировать.jpg" />
+    <None Remove="Images\products\Katy_soho_MaoMao_blue_2.jpg" />
+    <None Remove="Images\products\longchamp_pliage_navy - Копировать.jpg" />
+    <None Remove="Images\products\longchamp_pliage_navy.jpg" />
+    <None Remove="Images\products\lv_neverfull_brown - Копировать.jpg" />
+    <None Remove="Images\products\lv_neverfull_brown.jpg" />
+    <None Remove="Images\products\michael_kors_tote_beige - Копировать.jpg" />
+    <None Remove="Images\products\michael_kors_tote_beige.jpg" />
+    <None Remove="Images\products\michael_kors_tote_black - Копировать.jpg" />
+    <None Remove="Images\products\michael_kors_tote_black.jpg" />
+    <None Remove="Images\products\prada_reedition_black.jpg" />
+    <None Remove="Images\products\prada_reedition_powder.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\products\bagllet_shopper_white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\birkin_black.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\chanel_flap_beige.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\coach_duffle_gray.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\dior_clutch_gold.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\hermes_birkin_black_new.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\hermes_birkin_brown.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\katimo_backpack_blue.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\Katy_soho_MaoMao_black.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\Katy_soho_MaoMao_black_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\Katy_soho_MaoMao_blue.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\Katy_soho_MaoMao_blue_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\longchamp_pliage_navy.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\lv_neverfull_brown.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\michael_kors_tote_beige.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\michael_kors_tote_black.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\prada_reedition_black.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\products\prada_reedition_powder.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Npgsql" Version="10.0.2" />
+    <PackageReference Include="QuestPDF" Version="2026.5.0" />
   </ItemGroup>
 
 </Project>

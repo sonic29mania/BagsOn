@@ -31,7 +31,79 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- BEAUTIFUL TABS -->
 
+        <Style TargetType="{x:Type TabControl}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0 0 10 0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+
+                        <Border x:Name="TabBorder"
+                        MinWidth="175"
+                        Height="42"
+                        Background="#F3F4F6"
+                        BorderBrush="#E5E7EB"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                        Padding="18 0">
+
+                            <ContentPresenter ContentSource="Header"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TabBorder"
+                                Property="Background"
+                                Value="#EEF2FF"/>
+                                <Setter TargetName="TabBorder"
+                                Property="BorderBrush"
+                                Value="#C7D2FE"/>
+                                <Setter Property="Foreground"
+                                Value="#4F46E5"/>
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabBorder"
+                                Property="Background"
+                                Value="#5B8DEF"/>
+                                <Setter TargetName="TabBorder"
+                                Property="BorderBrush"
+                                Value="#5B8DEF"/>
+                                <Setter Property="Foreground"
+                                Value="White"/>
+                                <Setter TargetName="TabBorder"
+                                Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="18"
+                                                  ShadowDepth="0"
+                                                  Opacity="0.20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <!-- MAIN BUTTON -->
 
         <Style x:Key="ModernButtonStyle" TargetType="Button">
@@ -366,51 +438,33 @@
 
         <!-- HEADER -->
 
-        <Border Grid.Row="0"
-                Style="{StaticResource CardStyle}">
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel>
-                    <TextBlock Text="Замовлення"
-                               FontSize="26"
-                               FontWeight="Bold"
-                               Foreground="#111827"/>
-
-                    <TextBlock Text="Керування активними, виконаними та архівними замовленнями"
-                               FontSize="13"
-                               Foreground="#6B7280"
-                               Margin="0 6 0 0"/>
-                </StackPanel>
-
-                <Button Grid.Column="1"
-                        Content="+ Додати замовлення"
-                        Width="190"
-                        Style="{StaticResource ModernButtonStyle}"
-                        Click="AddOrderButton_Click"/>
-            </Grid>
-
-        </Border>
+        <!-- ORDERS TABS -->
 
         <!-- ORDERS TABS -->
 
         <Border Grid.Row="1"
-                Style="{StaticResource CardStyle}"
-                VerticalAlignment="Stretch">
+        Style="{StaticResource CardStyle}"
+        VerticalAlignment="Stretch">
 
             <Grid>
 
-                <TabControl Background="Transparent"
-                            BorderThickness="0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch">
+                <!-- КНОПКА СПРАВА НА РІВНІ ВКЛАДОК -->
+                <Button 
+          Content="+ Додати замовлення"
+          HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="10"
+          Style="{StaticResource ModernButtonStyle}"
+          Click="AddOrderButton_Click"/>
 
+
+                <TabControl Background="Transparent"
+                    BorderThickness="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch">
                     <!-- ACTIVE ORDERS TAB -->
 
                     <TabItem Header="{Binding ActiveTabTitle}">

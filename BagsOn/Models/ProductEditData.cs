@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+/// Клас ProductEditData використовується для додавання або редагування товару. Він зберігає дані, які користувач
+/// вводить у формі редагування
 namespace BagsOn.Models
 {
     public class ProductEditData

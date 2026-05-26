@@ -1,5 +1,5 @@
 ﻿using System;
-
+/// Клас StockItem описує товарну позицію на складі.
 namespace BagsOn.Models
 {
     public class StockItem

@@ -1,5 +1,6 @@
 ﻿namespace BagsOn.Models
 {
+    /// Клас AnalyticsReplenishmentItem зберігає дані для аналітики поповнення складу. 
     public class AnalyticsReplenishmentItem
     {
         public string ModelName { get; set; } = string.Empty;

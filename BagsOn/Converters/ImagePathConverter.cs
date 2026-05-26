@@ -18,16 +18,19 @@ namespace BagsOn.Converters
                 return null;
             }
 
+            string relativePath = imagePath
+                .Replace("/", "\\")
+                .TrimStart('\\');
+
             string fullPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
-                imagePath.Replace("/", "\\")
+                relativePath
             );
 
             if (!File.Exists(fullPath))
             {
                 return null;
             }
-
             BitmapImage image = new BitmapImage();
 
             image.BeginInit();

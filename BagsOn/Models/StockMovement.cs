@@ -1,5 +1,6 @@
 ﻿using System;
-
+/// Клас StockMovement описує одну операцію руху товару на складі. Він використовується для фіксації надходження,
+/// списання, резервування або інших змін кількості товару.
 namespace BagsOn.Models
 {
     public class StockMovement

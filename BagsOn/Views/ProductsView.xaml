@@ -59,10 +59,9 @@
         </Style>
 
         <!-- PRODUCT IMAGE -->
-
         <Style x:Key="ProductImageBorderStyle" TargetType="Border">
-            <Setter Property="Height" Value="170"/>
-            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="Height" Value="210"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="ClipToBounds" Value="True"/>
             <Setter Property="Margin" Value="0 0 0 14"/>
@@ -449,8 +448,8 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="105"/>
                         <ColumnDefinition Width="105"/>
-                        <ColumnDefinition Width="125"/>
-                        <ColumnDefinition Width="145"/>
+                        <ColumnDefinition Width="270"/>
+                        
                     </Grid.ColumnDefinitions>
 
                     <!-- SEARCH -->
@@ -497,15 +496,10 @@
 
                     <!-- STOCK -->
 
-                    <CheckBox Grid.Column="3"
-              Content="В наявності"
-              IsChecked="{Binding OnlyInStock}"
-              VerticalAlignment="Bottom"
-              Margin="0 0 12 10"/>
 
                     <!-- BUTTONS -->
 
-                    <StackPanel Grid.Column="4"
+                    <StackPanel Grid.Column="3"
                 VerticalAlignment="Bottom">
 
                         <Button Content="Очистити всі"
@@ -861,8 +855,15 @@
 
                                         <Border Style="{StaticResource ProductImageBorderStyle}">
 
-                                            <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"
-                                                   Stretch="UniformToFill"/>
+                                            <Grid Background="#F8FAFC">
+
+                                                <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"
+               Stretch="Uniform"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                                            </Grid>
 
                                         </Border>
 

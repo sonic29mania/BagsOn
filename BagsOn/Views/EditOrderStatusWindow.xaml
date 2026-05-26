@@ -103,26 +103,7 @@
 
             <StackPanel>
 
-                <!-- HEADER -->
-
-                <Border Style="{StaticResource CardStyle}">
-
-                    <StackPanel>
-
-                        <TextBlock Text="Редагування замовлення"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#111827"
-                                   Margin="0 0 0 8"/>
-
-                        <TextBlock Text="Змініть статус, дані клієнта та коментарі до замовлення"
-                                   FontSize="14"
-                                   Foreground="#6B7280"/>
-
-                    </StackPanel>
-
-                </Border>
-
+ 
 
                 <!-- ORDER STATUS -->
 

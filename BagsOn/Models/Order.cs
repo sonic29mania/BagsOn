@@ -1,5 +1,5 @@
 ﻿using System;
-
+/// Клас Order описує замовлення покупця. 
 namespace BagsOn.Models
 {
     public class Order
